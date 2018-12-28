@@ -1,35 +1,27 @@
-// 12: destructuring - object
+// 13: destructuring - defaults
 // To do: make all tests pass, leave the assert lines unchanged!
 // Follow the hints of the failure messages!
 
-describe('Destructure objects', () => {
-  it('by surrounding the left-hand variable with `{}`', () => {
-    const {x} = {x: 1};
-    assert.equal(x, 1);
+describe('When destructuring you can also provide default values', () => {
+  it('just assign a default value, like so `a=1`', () => {
+    const [a=1] = []; 
+    assert.equal(a, 1);
   });
-  describe('nested', () => {
-    it('multiple objects', () => {
-      const magic = {first: 23, second: 42};
-      const {magic: second} = {magic: 42};
-      assert.equal(second, 42);
-    });
-    it('object and array', () => {
-      const {z:[,x]} = {z: [23, 42]};//added , to set x = to second item in array
-      assert.equal(x, 42);
-    });
-    it('array and object', () => {
-      const [,[{env, lang}]] = [null, [{env: 'browser', lang: 'ES6'}]];
-      assert.equal(lang, 'ES6');
-    });
+  it('for a missing value', () => {
+    const [,b=2,] = [1,,3];
+    assert.equal(b, 2);
   });
-  describe('interesting', () => {
-    it('missing refs become undefined', () => {
-      const {z} = {x: 1};
-      assert.equal(z, void 0);
-    });
-    it('destructure from builtins (string)', () => {
-      const {substr} = '1';
-      assert.equal(substr, String.prototype.substr);
-    });
+  it('in an object', () => {
+    const {a, b=2} = {a: 1};
+    assert.equal(b, 2);
+  });
+  it('if the value is undefined', () => {
+    const {a, b=2} = {a: 1, b: void 0};
+    assert.strictEqual(b, 2);
+  });
+  it('also a string works with defaults', () => {
+    const [a,b=2] = '1';
+    assert.equal(a, '1');
+    assert.equal(b, 2);
   });
 });
